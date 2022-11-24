@@ -1,0 +1,12 @@
+.form--container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+
+}
+
+.buton--submit {
+    width: 20%;
+    height: 20%;
+}

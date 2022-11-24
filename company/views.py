@@ -1,4 +1,3 @@
-import csv
 from django.shortcuts import render
 
 from rest_framework.views import APIView, Request, Response, status
@@ -7,6 +6,10 @@ from .serializers import CompanySerializer
 
 
 # Create your views here.
+def index(request):
+    return render(request, "company/index.html", {})
+
+
 class PlainTextParser(BaseParser):
     media_type = "text/plain"
 
