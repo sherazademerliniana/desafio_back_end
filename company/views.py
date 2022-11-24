@@ -24,26 +24,18 @@ class CompanyView(APIView):
         lol = minha_dict.split("\n")
 
         for file in lol:
-            type = file[0:1]
-            date = file[1:9]
-            value = float(file[9:19]) / 100
-            cpf = file[19:30]
-            credit_card = file[30:42]
-            hour = file[42:48]
-            owner_company = file[48:62]
-            name_company = file[62:80]
             info_dict = {
-                "type": type,
-                "date": date,
-                "value": value,
-                "cpf": cpf,
-                "credit_card": credit_card,
-                "hour": hour,
-                "owner_company": owner_company,
-                "name_company": name_company,
+                "type": file[0:1],
+                "date": file[1:9],
+                "value": float(file[9:19]) / 100,
+                "cpf": file[19:30],
+                "credit_card": file[30:42],
+                "hour": file[42:48],
+                "owner_company": file[48:62],
+                "name_company": file[62:80],
             }
             serializer = CompanySerializer(data=info_dict)
             serializer.is_valid(raise_exception=True)
             serializer.save()
 
-        return Response()
+        return Response(status=status.HTTP_201_CREATED)
