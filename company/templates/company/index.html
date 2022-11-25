@@ -29,6 +29,7 @@
             let contador = 0;
 
             const ul = document.querySelector(".company--balance");
+            ul.innerHTML = ``
 
 
             for (let i = 0; i < data.length; i++) {
@@ -76,13 +77,12 @@
             request.open("POST", STATIC_URL, true);
             request.setRequestHeader('Content-type', 'text/plain');
 
-
-
-
             formData.append("file", file);
             request.send(formData.get("file"));
 
-            return document.location.reload(true);
+            setTimeout(() => {
+                document.location.reload(true)
+            }, 3000)
 
         }
 
