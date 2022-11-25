@@ -17,7 +17,7 @@ class CompanyView(APIView):
     def post(self, request: Request, format=None) -> Response:
 
         minha_dict = request.data.decode("utf-8")
-        print(minha_dict)
+        
 
         lol = minha_dict.split("\n")
 
