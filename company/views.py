@@ -1,22 +1,14 @@
 from django.shortcuts import render
 
 from rest_framework.views import APIView, Request, Response, status
-from rest_framework.parsers import BaseParser
 from .serializers import CompanySerializer
+from .parse import PlainTextParser
 from .models import Company
 
 
 # Create your views here.
 def index(request):
     return render(request, "company/index.html", {})
-
-
-class PlainTextParser(BaseParser):
-    media_type = "text/plain"
-
-    def parse(self, stream, media_type=None, parser_context=None):
-
-        return stream.read()
 
 
 class CompanyView(APIView):
