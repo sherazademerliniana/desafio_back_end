@@ -11,10 +11,89 @@
 </head>
 
 <body>
-    <form class="form--container">
-        <input type="file">
-        <input type="submit" class="buton--submit">
+    <form class="form--container" method="post">
+        <input type="file" class="file--send" id="file--input">
     </form>
+
+    <ul class="company--balance"></ul>
+
+    <script>
+
+        const FILE = document.getElementById("file--input");
+        const STATIC_URL = "http://127.0.0.1:8000/api/company/";
+
+        const homeBank = async () => {
+            const response = await fetch(STATIC_URL);
+            const data = await response.json()
+            const companys = [];
+            let contador = 0;
+
+            const ul = document.querySelector(".company--balance");
+
+
+            for (let i = 0; i < data.length; i++) {
+                for (let c = 0; c < data.length; c++) {
+                    if (data[i].name_company === companys[c]?.name_company) {
+                        contador++;
+                    }
+                }
+                if (contador === 0) {
+                    data[i]["balance"] = 0;
+                    companys.push(data[i])
+                }
+                contador = 0
+            }
+
+
+            for (let i = 0; i < companys.length; i++) {
+                for (let c = 0; c < data.length; c++) {
+                    if (companys[i].name_company === data[c].name_company) {
+                        if (data[c].type === 2 || data[c].type === 3 || data[c].type === 9) {
+                            companys[i].balance -= data[c].value
+                        } else {
+                            companys[i].balance += data[c].value
+                        }
+                    }
+                }
+            }
+
+            companys.forEach(company => {
+                let li = document.createElement("li");
+
+                li.innerHTML = `
+                <p>Company: ${company.name_company}</p>
+                <p>Balance: ${company.balance.toFixed(2)}</p>
+                `
+
+                ul.appendChild(li);
+            })
+        }
+
+        const submitArchive = file => {
+            const request = new XMLHttpRequest();
+            const formData = new FormData();
+
+            request.open("POST", STATIC_URL, true);
+            request.setRequestHeader('Content-type', 'text/plain');
+
+
+
+
+            formData.append("file", file);
+            request.send(formData.get("file"));
+
+            return document.location.reload(true);
+
+        }
+
+        FILE.addEventListener("change", event => {
+            const file = event.target.files
+            submitArchive(file[0])
+        })
+
+        homeBank();
+
+    </script>
 </body>
 
 </html>

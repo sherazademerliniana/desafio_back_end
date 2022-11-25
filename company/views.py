@@ -3,6 +3,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView, Request, Response, status
 from rest_framework.parsers import BaseParser
 from .serializers import CompanySerializer
+from .models import Company
 
 
 # Create your views here.
@@ -14,6 +15,7 @@ class PlainTextParser(BaseParser):
     media_type = "text/plain"
 
     def parse(self, stream, media_type=None, parser_context=None):
+
         return stream.read()
 
 
@@ -23,6 +25,7 @@ class CompanyView(APIView):
     def post(self, request: Request, format=None) -> Response:
 
         minha_dict = request.data.decode("utf-8")
+        print(minha_dict)
 
         lol = minha_dict.split("\n")
 
@@ -42,3 +45,10 @@ class CompanyView(APIView):
             serializer.save()
 
         return Response(status=status.HTTP_201_CREATED)
+
+    def get(self, request: Request) -> Response:
+        company = Company.objects.all()
+
+        serializer = CompanySerializer(company, many=True)
+
+        return Response(serializer.data)
