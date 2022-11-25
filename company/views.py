@@ -16,12 +16,11 @@ class CompanyView(APIView):
 
     def post(self, request: Request, format=None) -> Response:
 
-        minha_dict = request.data.decode("utf-8")
-        
+        archive_txt = request.data.decode("utf-8")
 
-        lol = minha_dict.split("\n")
+        list_companys = archive_txt.split("\n")
 
-        for file in lol:
+        for file in list_companys:
             info_dict = {
                 "type": file[0:1],
                 "date": file[1:9],
